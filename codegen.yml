@@ -1,0 +1,13 @@
+overwrite: true
+
+schema:
+  - "https://teaching-slug-86.hasura.app/v1/graphql":
+      headers:
+        "x-hasura-admin-secret": ${HASURA_GRAPHQL_ADMIN_SECRET}
+documents: src/**/*.graphql
+generates:
+  src/graphql/schema.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-graphql-request'

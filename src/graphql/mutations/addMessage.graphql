@@ -1,0 +1,20 @@
+mutation AddMessage($text: String!, $date: date = "now", $uid: String!, $negative: Int!, $positive: Int!) {
+  insert_messages_one(object: {text: $text, uid: $uid}) {
+    created_at
+    id
+    text
+    uid
+  }
+  insert_sentiments_one(object: {date: $date, uid: $uid}, on_conflict: {constraint: sentiments_pkey}) {
+    date
+    negative
+    positive
+    uid
+  }
+  update_sentiments_by_pk(pk_columns: {date: $date, uid: $uid}, _inc: {negative: $negative, positive: $positive}) {
+    date
+    negative
+    positive
+    uid
+  }
+}

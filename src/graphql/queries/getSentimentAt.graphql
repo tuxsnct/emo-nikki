@@ -1,0 +1,8 @@
+query GetSentimentAt($count: Int, $date: date!, $uid: String!) {
+  sentiments(limit: $count, order_by: {date: asc}, where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    date
+    negative
+    positive
+    uid
+  }
+}

@@ -1,0 +1,8 @@
+mutation AddUser($uid: String!, $name: String!) {
+  insert_users(objects: {uid: $uid, name: $name}) {
+    returning {
+      name
+      uid
+    }
+  }
+}
