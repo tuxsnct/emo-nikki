@@ -1,0 +1,8 @@
+query GetDiaryToday($date: date!, $uid: String!) {
+  diaries_by_pk(date: $date, uid: $uid) {
+    date
+    text
+    uid
+    id
+  }
+}

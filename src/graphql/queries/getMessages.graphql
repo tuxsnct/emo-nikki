@@ -1,5 +1,6 @@
-query GetMessages($uid: String!, $from: timestamptz!, $to: timestamptz) {
+query GetMessages($uid: String!, $from: timestamp!, $to: timestamp = "now") {
   messages(where: {uid: {_eq: $uid}, _and: {created_at: {_gte: $from, _lte: $to}}}, order_by: {created_at: asc}) {
+    date
     text
     uid
     created_at

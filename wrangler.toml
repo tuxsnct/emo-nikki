@@ -20,3 +20,6 @@ HASURA_GRAPHQL_ENDPOINT = "https://teaching-slug-86.hasura.app/v1/graphql"
 
 # [ai]
 # binding = "AI"
+
+[placement]
+mode = "smart"
