@@ -1,4 +1,4 @@
-name = "yumegate-backend"
+name = "emo-nikki"
 compatibility_date = "2024-08-22"
 compatibility_flags = [ "nodejs_compat" ]
 

@@ -22,8 +22,8 @@ export * from "./user";
 export enum WebhookCommand {
     UserRegister = 'ユーザー登録',
     UserDelete = 'ユーザー削除',
-    DiaryToday = '日記の生成',
-    QuestionToday = '質問の生成',
+    DiaryToday = '今日の日記',
+    QuestionToday = '今日の振り返り',
     AnswerSave = '回答の保存',
     AnswerCancel = '回答のキャンセル',
 }
@@ -34,7 +34,7 @@ export const handleWebhook = async (
     const data = await c.req.json();
     const events: WebhookEvent[] = (data as any).events;
     const clients = generateClients(c.env);
-    middleware({channelAccessToken: c.env.CHANNEL_ACCESS_TOKEN, channelSecret: c.env.CHANNEL_SECRET});
+    middleware({channelAccessToken: c.env.LINE_CHANNEL_ACCESS_TOKEN, channelSecret: c.env.LINE_CHANNEL_SECRET});
 
     c.executionCtx.waitUntil(
         Promise.all(
@@ -74,9 +74,9 @@ const handleWebhookEvent = async (
                 return handleUserRegister(clients, event);
             case "ユーザー削除":
                 return handleUserDelete(clients, event);
-            case "日記の生成":
+            case "今日の日記":
                 return handleDiaryToday(clients, event);
-            case "質問の生成":
+            case "今日の振り返り":
                 return handleQuestionToday(clients, event);
             case "回答の保存":
                 return handleAnswerSave(clients, event);

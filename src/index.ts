@@ -4,15 +4,14 @@ import {generateErrorResponse} from "./utils";
 import {middleware, WebhookEvent} from "@line/bot-sdk";
 import {generateClients} from "./clients";
 
-const app = new Hono<Env>();
+const app = new Hono<Env>().basePath("/emo-nikki");
 app.post("/webhook", (c) => handleWebhook(c));
 app.post("/api/generate-diary", (c) => handleGenerateDiary(c));
 app.onError(async (err, c) => {
     if (c.req.path === "/webhook") {
-        // send error message to line
         const events: WebhookEvent[] = (await c.req.json()).events;
         const clients = generateClients(c.env);
-        middleware({channelAccessToken: c.env.CHANNEL_ACCESS_TOKEN, channelSecret: c.env.CHANNEL_SECRET});
+        middleware({channelAccessToken: c.env.LINE_CHANNEL_ACCESS_TOKEN, channelSecret: c.env.LINE_CHANNEL_SECRET});
         c.executionCtx.waitUntil(
             Promise.all(
                 events.map(async (event: WebhookEvent) => {
