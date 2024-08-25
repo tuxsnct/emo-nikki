@@ -1,17 +1,31 @@
 import {messagingApi, middleware, WebhookEvent} from "@line/bot-sdk";
 import {Clients, generateClients} from "../../clients";
 import {Context} from "hono";
-import {handleDiaryToday, handleMessage, handleUserDelete, handleUserRegister} from "./";
+import {
+    handleAnswerCancel,
+    handleAnswerSave,
+    handleDiaryToday,
+    handleMessage,
+    handleQuestionToday,
+    handleUserDelete,
+    handleUserRegister
+} from "./";
 import {generateOkResponse} from "../../utils";
 
+export * from "./answer";
+export * from "./common";
 export * from "./diary";
 export * from "./message";
+export * from "./question";
 export * from "./user";
 
-enum WebhookCommand {
+export enum WebhookCommand {
     UserRegister = 'ユーザー登録',
     UserDelete = 'ユーザー削除',
     DiaryToday = '日記の生成',
+    QuestionToday = '質問の生成',
+    AnswerSave = '回答の保存',
+    AnswerCancel = '回答のキャンセル',
 }
 
 export const handleWebhook = async (
@@ -29,6 +43,13 @@ export const handleWebhook = async (
                     await handleWebhookEvent(clients, event);
                 } catch (err: unknown) {
                     if (err instanceof Error) console.error(err);
+
+                    if (event.type === "message" && event.message.type === "text") {
+                        await clients.messaging.replyMessage({
+                            replyToken: event.replyToken,
+                            messages: [{type: "text", text: "エラーが発生しました"}],
+                        });
+                    }
                 }
             })
         )
@@ -55,6 +76,12 @@ const handleWebhookEvent = async (
                 return handleUserDelete(clients, event);
             case "日記の生成":
                 return handleDiaryToday(clients, event);
+            case "質問の生成":
+                return handleQuestionToday(clients, event);
+            case "回答の保存":
+                return handleAnswerSave(clients, event);
+            case "回答のキャンセル":
+                return handleAnswerCancel(clients, event);
             default:
                 return handleUnknownCommand(clients, event);
         }

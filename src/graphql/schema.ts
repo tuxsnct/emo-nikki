@@ -537,6 +537,10 @@ export type Mutation_Root = {
   delete_messages?: Maybe<Messages_Mutation_Response>;
   /** delete single row from the table: "messages" */
   delete_messages_by_pk?: Maybe<Messages>;
+  /** delete data from the table: "question_sessions" */
+  delete_question_sessions?: Maybe<Question_Sessions_Mutation_Response>;
+  /** delete single row from the table: "question_sessions" */
+  delete_question_sessions_by_pk?: Maybe<Question_Sessions>;
   /** delete data from the table: "questions" */
   delete_questions?: Maybe<Questions_Mutation_Response>;
   /** delete single row from the table: "questions" */
@@ -558,6 +562,10 @@ export type Mutation_Root = {
   insert_messages?: Maybe<Messages_Mutation_Response>;
   /** insert a single row into the table: "messages" */
   insert_messages_one?: Maybe<Messages>;
+  /** insert data into the table: "question_sessions" */
+  insert_question_sessions?: Maybe<Question_Sessions_Mutation_Response>;
+  /** insert a single row into the table: "question_sessions" */
+  insert_question_sessions_one?: Maybe<Question_Sessions>;
   /** insert data into the table: "questions" */
   insert_questions?: Maybe<Questions_Mutation_Response>;
   /** insert a single row into the table: "questions" */
@@ -582,6 +590,12 @@ export type Mutation_Root = {
   update_messages_by_pk?: Maybe<Messages>;
   /** update multiples rows of table: "messages" */
   update_messages_many?: Maybe<Array<Maybe<Messages_Mutation_Response>>>;
+  /** update data of the table: "question_sessions" */
+  update_question_sessions?: Maybe<Question_Sessions_Mutation_Response>;
+  /** update single row of the table: "question_sessions" */
+  update_question_sessions_by_pk?: Maybe<Question_Sessions>;
+  /** update multiples rows of table: "question_sessions" */
+  update_question_sessions_many?: Maybe<Array<Maybe<Question_Sessions_Mutation_Response>>>;
   /** update data of the table: "questions" */
   update_questions?: Maybe<Questions_Mutation_Response>;
   /** update single row of the table: "questions" */
@@ -623,6 +637,18 @@ export type Mutation_RootDelete_MessagesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Messages_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Question_SessionsArgs = {
+  where: Question_Sessions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Question_Sessions_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -695,6 +721,20 @@ export type Mutation_RootInsert_MessagesArgs = {
 export type Mutation_RootInsert_Messages_OneArgs = {
   object: Messages_Insert_Input;
   on_conflict?: InputMaybe<Messages_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Question_SessionsArgs = {
+  objects: Array<Question_Sessions_Insert_Input>;
+  on_conflict?: InputMaybe<Question_Sessions_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Question_Sessions_OneArgs = {
+  object: Question_Sessions_Insert_Input;
+  on_conflict?: InputMaybe<Question_Sessions_On_Conflict>;
 };
 
 
@@ -777,6 +817,26 @@ export type Mutation_RootUpdate_Messages_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Messages_ManyArgs = {
   updates: Array<Messages_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Question_SessionsArgs = {
+  _set?: InputMaybe<Question_Sessions_Set_Input>;
+  where: Question_Sessions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Question_Sessions_By_PkArgs = {
+  _set?: InputMaybe<Question_Sessions_Set_Input>;
+  pk_columns: Question_Sessions_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Question_Sessions_ManyArgs = {
+  updates: Array<Question_Sessions_Updates>;
 };
 
 
@@ -871,6 +931,12 @@ export type Query_Root = {
   messages_aggregate: Messages_Aggregate;
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>;
+  /** fetch data from the table: "question_sessions" */
+  question_sessions: Array<Question_Sessions>;
+  /** fetch aggregated fields from the table: "question_sessions" */
+  question_sessions_aggregate: Question_Sessions_Aggregate;
+  /** fetch data from the table: "question_sessions" using primary key columns */
+  question_sessions_by_pk?: Maybe<Question_Sessions>;
   /** fetch data from the table: "questions" */
   questions: Array<Questions>;
   /** fetch aggregated fields from the table: "questions" */
@@ -934,6 +1000,29 @@ export type Query_RootMessages_AggregateArgs = {
 
 
 export type Query_RootMessages_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootQuestion_SessionsArgs = {
+  distinct_on?: InputMaybe<Array<Question_Sessions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Sessions_Order_By>>;
+  where?: InputMaybe<Question_Sessions_Bool_Exp>;
+};
+
+
+export type Query_RootQuestion_Sessions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Question_Sessions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Sessions_Order_By>>;
+  where?: InputMaybe<Question_Sessions_Bool_Exp>;
+};
+
+
+export type Query_RootQuestion_Sessions_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -1006,6 +1095,202 @@ export type Query_RootUsers_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
+/** columns and relationships of "question_sessions" */
+export type Question_Sessions = {
+  __typename?: 'question_sessions';
+  answer?: Maybe<Scalars['String']['output']>;
+  created_at: Scalars['timestamptz']['output'];
+  date: Scalars['date']['output'];
+  id: Scalars['uuid']['output'];
+  question: Scalars['String']['output'];
+  uid: Scalars['String']['output'];
+  updated_at: Scalars['timestamptz']['output'];
+};
+
+/** aggregated selection of "question_sessions" */
+export type Question_Sessions_Aggregate = {
+  __typename?: 'question_sessions_aggregate';
+  aggregate?: Maybe<Question_Sessions_Aggregate_Fields>;
+  nodes: Array<Question_Sessions>;
+};
+
+/** aggregate fields of "question_sessions" */
+export type Question_Sessions_Aggregate_Fields = {
+  __typename?: 'question_sessions_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Question_Sessions_Max_Fields>;
+  min?: Maybe<Question_Sessions_Min_Fields>;
+};
+
+
+/** aggregate fields of "question_sessions" */
+export type Question_Sessions_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Question_Sessions_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "question_sessions". All fields are combined with a logical 'AND'. */
+export type Question_Sessions_Bool_Exp = {
+  _and?: InputMaybe<Array<Question_Sessions_Bool_Exp>>;
+  _not?: InputMaybe<Question_Sessions_Bool_Exp>;
+  _or?: InputMaybe<Array<Question_Sessions_Bool_Exp>>;
+  answer?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  date?: InputMaybe<Date_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  question?: InputMaybe<String_Comparison_Exp>;
+  uid?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "question_sessions" */
+export enum Question_Sessions_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  QuestionSessionsPkey = 'question_sessions_pkey',
+  /** unique or primary key constraint on columns "uid", "date" */
+  QuestionSessionsUidDateKey = 'question_sessions_uid_date_key'
+}
+
+/** input type for inserting data into table "question_sessions" */
+export type Question_Sessions_Insert_Input = {
+  answer?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  date?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+  uid?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Question_Sessions_Max_Fields = {
+  __typename?: 'question_sessions_max_fields';
+  answer?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  date?: Maybe<Scalars['date']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  question?: Maybe<Scalars['String']['output']>;
+  uid?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** aggregate min on columns */
+export type Question_Sessions_Min_Fields = {
+  __typename?: 'question_sessions_min_fields';
+  answer?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  date?: Maybe<Scalars['date']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  question?: Maybe<Scalars['String']['output']>;
+  uid?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** response of any mutation on the table "question_sessions" */
+export type Question_Sessions_Mutation_Response = {
+  __typename?: 'question_sessions_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Question_Sessions>;
+};
+
+/** on_conflict condition type for table "question_sessions" */
+export type Question_Sessions_On_Conflict = {
+  constraint: Question_Sessions_Constraint;
+  update_columns?: Array<Question_Sessions_Update_Column>;
+  where?: InputMaybe<Question_Sessions_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "question_sessions". */
+export type Question_Sessions_Order_By = {
+  answer?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  question?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: question_sessions */
+export type Question_Sessions_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "question_sessions" */
+export enum Question_Sessions_Select_Column {
+  /** column name */
+  Answer = 'answer',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Date = 'date',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Question = 'question',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "question_sessions" */
+export type Question_Sessions_Set_Input = {
+  answer?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  date?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+  uid?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** Streaming cursor of the table "question_sessions" */
+export type Question_Sessions_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Question_Sessions_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Question_Sessions_Stream_Cursor_Value_Input = {
+  answer?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  date?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+  uid?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** update columns of table "question_sessions" */
+export enum Question_Sessions_Update_Column {
+  /** column name */
+  Answer = 'answer',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Date = 'date',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Question = 'question',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+export type Question_Sessions_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Question_Sessions_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Question_Sessions_Bool_Exp;
+};
+
 /** columns and relationships of "questions" */
 export type Questions = {
   __typename?: 'questions';
@@ -1055,7 +1340,9 @@ export type Questions_Bool_Exp = {
 /** unique or primary key constraints on table "questions" */
 export enum Questions_Constraint {
   /** unique or primary key constraint on columns "id" */
-  QuestionsPkey = 'questions_pkey'
+  QuestionsPkey = 'questions_pkey',
+  /** unique or primary key constraint on columns "uid", "date" */
+  QuestionsUidDateKey = 'questions_uid_date_key'
 }
 
 /** input type for inserting data into table "questions" */
@@ -1563,6 +1850,14 @@ export type Subscription_Root = {
   messages_by_pk?: Maybe<Messages>;
   /** fetch data from the table in a streaming manner: "messages" */
   messages_stream: Array<Messages>;
+  /** fetch data from the table: "question_sessions" */
+  question_sessions: Array<Question_Sessions>;
+  /** fetch aggregated fields from the table: "question_sessions" */
+  question_sessions_aggregate: Question_Sessions_Aggregate;
+  /** fetch data from the table: "question_sessions" using primary key columns */
+  question_sessions_by_pk?: Maybe<Question_Sessions>;
+  /** fetch data from the table in a streaming manner: "question_sessions" */
+  question_sessions_stream: Array<Question_Sessions>;
   /** fetch data from the table: "questions" */
   questions: Array<Questions>;
   /** fetch aggregated fields from the table: "questions" */
@@ -1647,6 +1942,36 @@ export type Subscription_RootMessages_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Messages_Stream_Cursor_Input>>;
   where?: InputMaybe<Messages_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuestion_SessionsArgs = {
+  distinct_on?: InputMaybe<Array<Question_Sessions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Sessions_Order_By>>;
+  where?: InputMaybe<Question_Sessions_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuestion_Sessions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Question_Sessions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Question_Sessions_Order_By>>;
+  where?: InputMaybe<Question_Sessions_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuestion_Sessions_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootQuestion_Sessions_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Question_Sessions_Stream_Cursor_Input>>;
+  where?: InputMaybe<Question_Sessions_Bool_Exp>;
 };
 
 
@@ -2019,7 +2344,7 @@ export type AddDiaryTodayMutationVariables = Exact<{
 }>;
 
 
-export type AddDiaryTodayMutation = { __typename?: 'mutation_root', insert_diaries?: { __typename?: 'diaries_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'diaries', created_at: any, date: any, id: any, text: string, uid: string }> } | null };
+export type AddDiaryTodayMutation = { __typename?: 'mutation_root', insert_diaries_one?: { __typename?: 'diaries', created_at: any, date: any, id: any, text: string, uid: string } | null };
 
 export type AddMessageMutationVariables = Exact<{
   text: Scalars['String']['input'];
@@ -2032,12 +2357,38 @@ export type AddMessageMutationVariables = Exact<{
 
 export type AddMessageMutation = { __typename?: 'mutation_root', insert_messages_one?: { __typename?: 'messages', created_at: any, date: any, id: any, text: string, uid: string } | null, insert_sentiments_one?: { __typename?: 'sentiments', created_at: any, date: any, id: any, negative: number, positive: number, uid: string } | null, update_sentiments?: { __typename?: 'sentiments_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'sentiments', created_at: any, date: any, id: any, negative: number, positive: number, uid: string }> } | null };
 
+export type AddQuestionTodayMutationVariables = Exact<{
+  uid: Scalars['String']['input'];
+  date: Scalars['date']['input'];
+  question: Scalars['String']['input'];
+}>;
+
+
+export type AddQuestionTodayMutation = { __typename?: 'mutation_root', insert_questions_one?: { __typename?: 'questions', answer?: string | null, created_at: any, date: any, id: any, question: string, uid: string } | null, insert_question_sessions_one?: { __typename?: 'question_sessions', answer?: string | null, created_at: any, date: any, id: any, question: string, uid: string, updated_at: any } | null };
+
+export type AddSessionMutationVariables = Exact<{
+  uid: Scalars['String']['input'];
+  date: Scalars['date']['input'];
+  question: Scalars['String']['input'];
+}>;
+
+
+export type AddSessionMutation = { __typename?: 'mutation_root', insert_question_sessions?: { __typename?: 'question_sessions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'question_sessions', answer?: string | null, created_at: any, date: any, id: any, question: string, uid: string }> } | null };
+
 export type AddUserMutationVariables = Exact<{
   uid: Scalars['String']['input'];
 }>;
 
 
-export type AddUserMutation = { __typename?: 'mutation_root', insert_users?: { __typename?: 'users_mutation_response', returning: Array<{ __typename?: 'users', created_at: any, id: any, uid: string }> } | null };
+export type AddUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', created_at: any, id: any, uid: string } | null };
+
+export type DeleteQuestionSessionMutationVariables = Exact<{
+  uid: Scalars['String']['input'];
+  date: Scalars['date']['input'];
+}>;
+
+
+export type DeleteQuestionSessionMutation = { __typename?: 'mutation_root', delete_question_sessions?: { __typename?: 'question_sessions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'question_sessions', answer?: string | null, created_at: any, date: any, id: any, question: string, uid: string, updated_at: any }> } | null };
 
 export type DeleteUserMutationVariables = Exact<{
   uid: Scalars['String']['input'];
@@ -2054,6 +2405,25 @@ export type GenerateDiaryMutationVariables = Exact<{
 
 export type GenerateDiaryMutation = { __typename?: 'mutation_root', generate_diary?: { __typename?: 'GenerateDiaryOutput', date: any, text: string, uid: string, updated_diary?: { __typename?: 'diaries', created_at: any, date: any, id: any, text: string, uid: string } | null } | null };
 
+export type SaveQuestionAndAnswerMutationVariables = Exact<{
+  uid: Scalars['String']['input'];
+  date: Scalars['date']['input'];
+  question: Scalars['String']['input'];
+  answer: Scalars['String']['input'];
+}>;
+
+
+export type SaveQuestionAndAnswerMutation = { __typename?: 'mutation_root', insert_questions_one?: { __typename?: 'questions', answer?: string | null, created_at: any, date: any, id: any, question: string, uid: string } | null, delete_question_sessions?: { __typename?: 'question_sessions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'question_sessions', answer?: string | null, created_at: any, date: any, id: any, question: string, uid: string, updated_at: any }> } | null };
+
+export type UpdateAnswerToSessionMutationVariables = Exact<{
+  uid: Scalars['String']['input'];
+  date: Scalars['date']['input'];
+  answer: Scalars['String']['input'];
+}>;
+
+
+export type UpdateAnswerToSessionMutation = { __typename?: 'mutation_root', update_question_sessions?: { __typename?: 'question_sessions_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'question_sessions', answer?: string | null, created_at: any, date: any, id: any, question: string, uid: string }> } | null };
+
 export type GetDiaryTodayQueryVariables = Exact<{
   date: Scalars['date']['input'];
   uid: Scalars['String']['input'];
@@ -2069,6 +2439,14 @@ export type GetMessagesQueryVariables = Exact<{
 
 
 export type GetMessagesQuery = { __typename?: 'query_root', messages: Array<{ __typename?: 'messages', created_at: any, date: any, id: any, text: string, uid: string }> };
+
+export type GetQuestionTodayQueryVariables = Exact<{
+  date: Scalars['date']['input'];
+  uid: Scalars['String']['input'];
+}>;
+
+
+export type GetQuestionTodayQuery = { __typename?: 'query_root', questions: Array<{ __typename?: 'questions', answer?: string | null, created_at: any, date: any, id: any, question: string, uid: string }> };
 
 export type GetSentimentAtQueryVariables = Exact<{
   count?: InputMaybe<Scalars['Int']['input']>;
@@ -2089,28 +2467,26 @@ export type GetSentimentsBetweenQueryVariables = Exact<{
 
 export type GetSentimentsBetweenQuery = { __typename?: 'query_root', sentiments: Array<{ __typename?: 'sentiments', created_at: any, date: any, id: any, negative: number, positive: number, uid: string }> };
 
-export type GetUserQueryVariables = Exact<{
-  uid?: InputMaybe<Scalars['String']['input']>;
+export type GetUserSessionQueryVariables = Exact<{
+  uid: Scalars['String']['input'];
+  date: Scalars['date']['input'];
 }>;
 
 
-export type GetUserQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', created_at: any, id: any, uid: string }> };
+export type GetUserSessionQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', created_at: any, id: any, uid: string }>, question_sessions: Array<{ __typename?: 'question_sessions', answer?: string | null, date: any, id: any, question: string, uid: string }> };
 
 
 export const AddDiaryTodayDocument = gql`
     mutation AddDiaryToday($text: String!, $uid: String!, $date: date!) {
-  insert_diaries(
-    objects: {text: $text, uid: $uid, date: $date}
+  insert_diaries_one(
+    object: {text: $text, uid: $uid, date: $date}
     on_conflict: {constraint: diaries_uid_date_key}
   ) {
-    affected_rows
-    returning {
-      created_at
-      date
-      id
-      text
-      uid
-    }
+    created_at
+    date
+    id
+    text
+    uid
   }
 }
     `;
@@ -2150,13 +2526,72 @@ export const AddMessageDocument = gql`
   }
 }
     `;
+export const AddQuestionTodayDocument = gql`
+    mutation AddQuestionToday($uid: String!, $date: date!, $question: String!) {
+  insert_questions_one(
+    object: {uid: $uid, date: $date, question: $question}
+    on_conflict: {constraint: questions_uid_date_key}
+  ) {
+    answer
+    created_at
+    date
+    id
+    question
+    uid
+  }
+  insert_question_sessions_one(
+    object: {uid: $uid, date: $date, question: $question}
+    on_conflict: {constraint: question_sessions_uid_date_key}
+  ) {
+    answer
+    created_at
+    date
+    id
+    question
+    uid
+    updated_at
+  }
+}
+    `;
+export const AddSessionDocument = gql`
+    mutation AddSession($uid: String!, $date: date!, $question: String!) {
+  insert_question_sessions(
+    objects: {uid: $uid, date: $date, question: $question}
+    on_conflict: {constraint: question_sessions_uid_date_key, update_columns: question}
+  ) {
+    affected_rows
+    returning {
+      answer
+      created_at
+      date
+      id
+      question
+      uid
+    }
+  }
+}
+    `;
 export const AddUserDocument = gql`
     mutation AddUser($uid: String!) {
-  insert_users(objects: {uid: $uid}) {
+  insert_users_one(object: {uid: $uid}) {
+    created_at
+    id
+    uid
+  }
+}
+    `;
+export const DeleteQuestionSessionDocument = gql`
+    mutation DeleteQuestionSession($uid: String!, $date: date!) {
+  delete_question_sessions(where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    affected_rows
     returning {
+      answer
       created_at
+      date
       id
+      question
       uid
+      updated_at
     }
   }
 }
@@ -2189,6 +2624,51 @@ export const GenerateDiaryDocument = gql`
   }
 }
     `;
+export const SaveQuestionAndAnswerDocument = gql`
+    mutation SaveQuestionAndAnswer($uid: String!, $date: date!, $question: String!, $answer: String!) {
+  insert_questions_one(
+    object: {uid: $uid, date: $date, question: $question, answer: $answer}
+    on_conflict: {constraint: questions_uid_date_key, update_columns: answer}
+  ) {
+    answer
+    created_at
+    date
+    id
+    question
+    uid
+  }
+  delete_question_sessions(where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    affected_rows
+    returning {
+      answer
+      created_at
+      date
+      id
+      question
+      uid
+      updated_at
+    }
+  }
+}
+    `;
+export const UpdateAnswerToSessionDocument = gql`
+    mutation UpdateAnswerToSession($uid: String!, $date: date!, $answer: String!) {
+  update_question_sessions(
+    _set: {answer: $answer}
+    where: {date: {_eq: $date}, uid: {_eq: $uid}}
+  ) {
+    affected_rows
+    returning {
+      answer
+      created_at
+      date
+      id
+      question
+      uid
+    }
+  }
+}
+    `;
 export const GetDiaryTodayDocument = gql`
     query GetDiaryToday($date: date!, $uid: String!) {
   diaries(where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
@@ -2210,6 +2690,18 @@ export const GetMessagesDocument = gql`
     date
     id
     text
+    uid
+  }
+}
+    `;
+export const GetQuestionTodayDocument = gql`
+    query GetQuestionToday($date: date!, $uid: String!) {
+  questions(where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    answer
+    created_at
+    date
+    id
+    question
     uid
   }
 }
@@ -2246,11 +2738,18 @@ export const GetSentimentsBetweenDocument = gql`
   }
 }
     `;
-export const GetUserDocument = gql`
-    query GetUser($uid: String) {
+export const GetUserSessionDocument = gql`
+    query GetUserSession($uid: String!, $date: date!) {
   users(where: {uid: {_eq: $uid}}) {
     created_at
     id
+    uid
+  }
+  question_sessions(where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    answer
+    date
+    id
+    question
     uid
   }
 }
@@ -2269,8 +2768,17 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     AddMessage(variables: AddMessageMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddMessageMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<AddMessageMutation>(AddMessageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddMessage', 'mutation', variables);
     },
+    AddQuestionToday(variables: AddQuestionTodayMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddQuestionTodayMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AddQuestionTodayMutation>(AddQuestionTodayDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddQuestionToday', 'mutation', variables);
+    },
+    AddSession(variables: AddSessionMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddSessionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AddSessionMutation>(AddSessionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddSession', 'mutation', variables);
+    },
     AddUser(variables: AddUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<AddUserMutation>(AddUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddUser', 'mutation', variables);
+    },
+    DeleteQuestionSession(variables: DeleteQuestionSessionMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DeleteQuestionSessionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteQuestionSessionMutation>(DeleteQuestionSessionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteQuestionSession', 'mutation', variables);
     },
     DeleteUser(variables: DeleteUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DeleteUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserMutation>(DeleteUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteUser', 'mutation', variables);
@@ -2278,11 +2786,20 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     GenerateDiary(variables: GenerateDiaryMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GenerateDiaryMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<GenerateDiaryMutation>(GenerateDiaryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GenerateDiary', 'mutation', variables);
     },
+    SaveQuestionAndAnswer(variables: SaveQuestionAndAnswerMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SaveQuestionAndAnswerMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SaveQuestionAndAnswerMutation>(SaveQuestionAndAnswerDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SaveQuestionAndAnswer', 'mutation', variables);
+    },
+    UpdateAnswerToSession(variables: UpdateAnswerToSessionMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UpdateAnswerToSessionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateAnswerToSessionMutation>(UpdateAnswerToSessionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateAnswerToSession', 'mutation', variables);
+    },
     GetDiaryToday(variables: GetDiaryTodayQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetDiaryTodayQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDiaryTodayQuery>(GetDiaryTodayDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetDiaryToday', 'query', variables);
     },
     GetMessages(variables: GetMessagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetMessagesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetMessagesQuery>(GetMessagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetMessages', 'query', variables);
+    },
+    GetQuestionToday(variables: GetQuestionTodayQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetQuestionTodayQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetQuestionTodayQuery>(GetQuestionTodayDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetQuestionToday', 'query', variables);
     },
     GetSentimentAt(variables: GetSentimentAtQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetSentimentAtQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetSentimentAtQuery>(GetSentimentAtDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetSentimentAt', 'query', variables);
@@ -2290,8 +2807,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     GetSentimentsBetween(variables: GetSentimentsBetweenQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetSentimentsBetweenQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetSentimentsBetweenQuery>(GetSentimentsBetweenDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetSentimentsBetween', 'query', variables);
     },
-    GetUser(variables?: GetUserQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetUserQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetUser', 'query', variables);
+    GetUserSession(variables: GetUserSessionQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetUserSessionQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetUserSessionQuery>(GetUserSessionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetUserSession', 'query', variables);
     }
   };
 }

@@ -33,11 +33,12 @@ export const handleDiaryToday = async (
                 });
                 await clients.messaging.showLoadingAnimation({chatId: userId, loadingSeconds: 10});
             },
-            failedToGenerate: async () => {
+            failedToGenerate: async (error) => {
                 await clients.messaging.pushMessage({
                     to: userId,
                     messages: [{type: "text", text: "日記の生成に失敗しました"}],
                 })
+                throw error;
             },
             alreadyGenerated: async (message) => {
                 await clients.messaging.pushMessage({

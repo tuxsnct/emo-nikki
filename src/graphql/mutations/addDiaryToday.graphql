@@ -1,12 +1,9 @@
 mutation AddDiaryToday($text: String!, $uid: String!, $date: date!) {
-  insert_diaries(objects: {text: $text, uid: $uid, date: $date}, on_conflict: {constraint: diaries_uid_date_key}) {
-    affected_rows
-    returning {
-      created_at
-      date
-      id
-      text
-      uid
-    }
+  insert_diaries_one(object: {text: $text, uid: $uid, date: $date}, on_conflict: {constraint: diaries_uid_date_key}) {
+    created_at
+    date
+    id
+    text
+    uid
   }
 }

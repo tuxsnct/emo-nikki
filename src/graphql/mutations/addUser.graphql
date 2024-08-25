@@ -1,9 +1,7 @@
 mutation AddUser($uid: String!) {
-  insert_users(objects: {uid: $uid}) {
-    returning {
-      created_at
-      id
-      uid
-    }
+  insert_users_one(object: {uid: $uid}) {
+    created_at
+    id
+    uid
   }
 }

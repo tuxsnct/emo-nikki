@@ -1,0 +1,13 @@
+mutation AddSession($uid: String!, $date: date!, $question: String!) {
+  insert_question_sessions(objects: {uid: $uid, date: $date, question: $question}, on_conflict: {constraint: question_sessions_uid_date_key, update_columns: question}) {
+    affected_rows
+    returning {
+      answer
+      created_at
+      date
+      id
+      question
+      uid
+    }
+  }
+}

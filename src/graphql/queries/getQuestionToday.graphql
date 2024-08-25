@@ -1,0 +1,10 @@
+query GetQuestionToday($date: date!, $uid: String!) {
+  questions(where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    answer
+    created_at
+    date
+    id
+    question
+    uid
+  }
+}

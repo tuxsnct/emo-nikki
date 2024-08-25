@@ -13,8 +13,8 @@ export const handleUserRegister = async (
     let message: string;
     try {
         const user = await clients.messaging.getProfile(userId);
-        const query = await clients.graphql.AddUser({uid: userId});
-        if (query.insert_users) {
+        const {insert_users_one: addedUser} = await clients.graphql.AddUser({uid: userId});
+        if (addedUser) {
             await clients.messaging.linkRichMenuIdToUser(userId, richmenus.diary);
             message = `登録が完了しました!${user.displayName}さん、こんにちは！`;
         } else {
@@ -40,8 +40,8 @@ export const handleUserDelete = async (
 
     let message: string;
     try {
-        const query = await clients.graphql.DeleteUser({uid: userId});
-        if (query.delete_users?.affected_rows === 1) message = "登録解除が完了しました";
+        const {delete_users} = await clients.graphql.DeleteUser({uid: userId});
+        if (delete_users?.affected_rows === 1) message = "登録解除が完了しました";
         else message = "登録解除に失敗しました";
     } catch (e) {
         message = "登録されていません";

@@ -10,4 +10,7 @@ type Bindings = {
 
 type Variables = {}
 
-type Env = import("hono").Env<Bindings, Variables>;
+type Env = {
+    Bindings: Bindings;
+    Variables: Variables;
+}

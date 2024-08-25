@@ -1,6 +1,7 @@
-import {messagingApi, TextMessage, WebhookEvent} from "@line/bot-sdk";
+import {WebhookEvent} from "@line/bot-sdk";
 import {Clients} from "../../clients";
 import {DateTime} from "luxon";
+import {handleNotRegistered, WebhookCommand} from "./";
 
 // type Sentiment = {
 //     documentSentiment: {
@@ -17,21 +18,65 @@ type Sentiment = {
 export const handleMessage = async (
     clients: Clients,
     event: WebhookEvent
-): Promise<messagingApi.ReplyMessageResponse | undefined> => {
+) => {
     if (event.type !== "message" || event.message.type !== "text") return;
     const {replyToken, source: {userId}, message: {text}} = event;
     if (!replyToken || !userId) return;
 
-    const query = await clients.graphql.GetUser({"uid": userId});
-    if (query.users.length === 0) {
-        const message: TextMessage = {
-            type: "text",
-            text: "登録が完了していません",
-        }
-        await clients.messaging.replyMessage({replyToken: replyToken, messages: [message]});
-        return;
-    }
+    const date = DateTime.local();
+    const {users, question_sessions} =
+        await clients.graphql.GetUserSession({uid: userId, date: date.toISODate()});
 
+    if (users.length === 0) return await handleNotRegistered(clients, replyToken);
+    else if (question_sessions.length !== 0) return await handleAnsweringMessage(clients, replyToken, userId, date, text);
+    else return await handleMessageWithSentiment(clients, replyToken, userId, text);
+}
+
+const handleAnsweringMessage = async (
+    clients: Clients,
+    replyToken: string,
+    userId: string,
+    date: DateTime,
+    text: string
+) => {
+    await clients.graphql.UpdateAnswerToSession({uid: userId, date: date.toISODate(), answer: text});
+    await clients.messaging.replyMessage({
+        replyToken: replyToken,
+        messages: [
+            {
+                type: "text",
+                text: "回答を保存してもよろしいですか？",
+                quickReply: {
+                    items: [
+                        {
+                            type: "action",
+                            action: {
+                                type: "message",
+                                label: "はい",
+                                text: `:${WebhookCommand.AnswerSave}`,
+                            },
+                        },
+                        {
+                            type: "action",
+                            action: {
+                                type: "message",
+                                label: "いいえ",
+                                text: `:${WebhookCommand.AnswerCancel}`,
+                            },
+                        },
+                    ]
+                }
+            }
+        ]
+    });
+}
+
+const handleMessageWithSentiment = async (
+    clients: Clients,
+    replyToken: string,
+    userId: string,
+    text: string
+) => {
     await clients.messaging.showLoadingAnimation({chatId: userId, loadingSeconds: 5});
     // const sentiment = await clients.language.analyzeSentiment(text);
     const chatCompletion = await clients.openai.beta.chat.completions.parse({

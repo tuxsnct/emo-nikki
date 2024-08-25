@@ -1,0 +1,14 @@
+query GetUserSession($uid: String!, $date: date!) {
+  users(where: {uid: {_eq: $uid}}) {
+    created_at
+    id
+    uid
+  }
+  question_sessions(where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    answer
+    date
+    id
+    question
+    uid
+  }
+}

@@ -1,0 +1,13 @@
+mutation UpdateAnswerToSession($uid: String!, $date: date!, $answer: String!) {
+  update_question_sessions(_set: {answer: $answer}, where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    affected_rows
+    returning {
+      answer
+      created_at
+      date
+      id
+      question
+      uid
+    }
+  }
+}

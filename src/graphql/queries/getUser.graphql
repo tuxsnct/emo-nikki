@@ -1,7 +1,0 @@
-query GetUser($uid: String) {
-  users(where: {uid: {_eq: $uid}}) {
-    created_at
-    id
-    uid
-  }
-}

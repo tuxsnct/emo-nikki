@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "wrangler dev src/index.ts --ip 0.0.0.0",
     "deploy": "wrangler deploy --minify src/index.ts",
+    "typecheck": "tsc --noEmit src/**/*.ts --skipLibCheck",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.yml"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "@graphql-codegen/typescript-operations": "^4.2.3",
     "@parcel/watcher": "^2.4.1",
     "@types/luxon": "^3.4.2",
+    "typescript": "^5.5.4",
     "wrangler": "^3.72.2"
   },
   "packageManager": "pnpm@9.7.1+sha512.faf344af2d6ca65c4c5c8c2224ea77a81a5e8859cbc4e06b1511ddce2f0151512431dd19e6aff31f2c6a8f5f2aced9bd2273e1fed7dd4de1868984059d2c4247"

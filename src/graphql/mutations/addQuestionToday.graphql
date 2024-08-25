@@ -1,0 +1,19 @@
+mutation AddQuestionToday($uid: String!, $date: date!, $question: String!) {
+  insert_questions_one(object: {uid: $uid, date: $date, question: $question}, on_conflict: {constraint: questions_uid_date_key}) {
+    answer
+    created_at
+    date
+    id
+    question
+    uid
+  }
+  insert_question_sessions_one(object: {uid: $uid, date: $date, question: $question}, on_conflict: {constraint: question_sessions_uid_date_key}) {
+    answer
+    created_at
+    date
+    id
+    question
+    uid
+    updated_at
+  }
+}
