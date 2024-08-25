@@ -1,6 +1,8 @@
 query GetSentimentsBetween($count: Int, $dateFrom: date!, $dateTo: date!, $uid: String!) {
   sentiments(limit: $count, order_by: {date: asc}, where: {uid: {_eq: $uid}, _and: {date: {_gte: $dateFrom, _lte: $dateTo}}}) {
+    created_at
     date
+    id
     negative
     positive
     uid

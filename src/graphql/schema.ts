@@ -17,7 +17,16 @@ export type Scalars = {
   Float: { input: number; output: number; }
   date: { input: any; output: any; }
   timestamp: { input: any; output: any; }
+  timestamptz: { input: any; output: any; }
   uuid: { input: any; output: any; }
+};
+
+export type GenerateDiaryOutput = {
+  __typename?: 'GenerateDiaryOutput';
+  date: Scalars['date']['output'];
+  text: Scalars['String']['output'];
+  uid: Scalars['String']['output'];
+  updated_diary?: Maybe<Diaries>;
 };
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -90,36 +99,11 @@ export type Date_Comparison_Exp = {
 /** columns and relationships of "diaries" */
 export type Diaries = {
   __typename?: 'diaries';
+  created_at: Scalars['timestamptz']['output'];
   date: Scalars['date']['output'];
   id: Scalars['uuid']['output'];
-  /** fetch data from the table: "messages" */
-  messages: Array<Messages>;
-  /** fetch aggregated fields from the table: "messages" */
-  messages_aggregate: Messages_Aggregate;
-  /** An object relationship */
-  sentiments?: Maybe<Sentiments>;
   text: Scalars['String']['output'];
   uid: Scalars['String']['output'];
-};
-
-
-/** columns and relationships of "diaries" */
-export type DiariesMessagesArgs = {
-  distinct_on?: InputMaybe<Array<Messages_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Messages_Order_By>>;
-  where?: InputMaybe<Messages_Bool_Exp>;
-};
-
-
-/** columns and relationships of "diaries" */
-export type DiariesMessages_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Messages_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Messages_Order_By>>;
-  where?: InputMaybe<Messages_Bool_Exp>;
 };
 
 /** aggregated selection of "diaries" */
@@ -127,6 +111,17 @@ export type Diaries_Aggregate = {
   __typename?: 'diaries_aggregate';
   aggregate?: Maybe<Diaries_Aggregate_Fields>;
   nodes: Array<Diaries>;
+};
+
+export type Diaries_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Diaries_Aggregate_Bool_Exp_Count>;
+};
+
+export type Diaries_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Diaries_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Diaries_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "diaries" */
@@ -144,34 +139,45 @@ export type Diaries_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "diaries" */
+export type Diaries_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Diaries_Max_Order_By>;
+  min?: InputMaybe<Diaries_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "diaries" */
+export type Diaries_Arr_Rel_Insert_Input = {
+  data: Array<Diaries_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Diaries_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "diaries". All fields are combined with a logical 'AND'. */
 export type Diaries_Bool_Exp = {
   _and?: InputMaybe<Array<Diaries_Bool_Exp>>;
   _not?: InputMaybe<Diaries_Bool_Exp>;
   _or?: InputMaybe<Array<Diaries_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   date?: InputMaybe<Date_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  messages?: InputMaybe<Messages_Bool_Exp>;
-  messages_aggregate?: InputMaybe<Messages_Aggregate_Bool_Exp>;
-  sentiments?: InputMaybe<Sentiments_Bool_Exp>;
   text?: InputMaybe<String_Comparison_Exp>;
   uid?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "diaries" */
 export enum Diaries_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  DiariesPkey = 'diaries_pkey',
   /** unique or primary key constraint on columns "uid", "date" */
-  DiariesDateUidKey = 'diaries_date_uid_key',
-  /** unique or primary key constraint on columns "uid", "date" */
-  DiariesPkey = 'diaries_pkey'
+  DiariesUidDateKey = 'diaries_uid_date_key'
 }
 
 /** input type for inserting data into table "diaries" */
 export type Diaries_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  messages?: InputMaybe<Messages_Arr_Rel_Insert_Input>;
-  sentiments?: InputMaybe<Sentiments_Obj_Rel_Insert_Input>;
   text?: InputMaybe<Scalars['String']['input']>;
   uid?: InputMaybe<Scalars['String']['input']>;
 };
@@ -179,19 +185,39 @@ export type Diaries_Insert_Input = {
 /** aggregate max on columns */
 export type Diaries_Max_Fields = {
   __typename?: 'diaries_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   date?: Maybe<Scalars['date']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   text?: Maybe<Scalars['String']['output']>;
   uid?: Maybe<Scalars['String']['output']>;
 };
 
+/** order by max() on columns of table "diaries" */
+export type Diaries_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  text?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Diaries_Min_Fields = {
   __typename?: 'diaries_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   date?: Maybe<Scalars['date']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   text?: Maybe<Scalars['String']['output']>;
   uid?: Maybe<Scalars['String']['output']>;
+};
+
+/** order by min() on columns of table "diaries" */
+export type Diaries_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  text?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "diaries" */
@@ -212,22 +238,22 @@ export type Diaries_On_Conflict = {
 
 /** Ordering options when selecting data from "diaries". */
 export type Diaries_Order_By = {
+  created_at?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  messages_aggregate?: InputMaybe<Messages_Aggregate_Order_By>;
-  sentiments?: InputMaybe<Sentiments_Order_By>;
   text?: InputMaybe<Order_By>;
   uid?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: diaries */
 export type Diaries_Pk_Columns_Input = {
-  date: Scalars['date']['input'];
-  uid: Scalars['String']['input'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "diaries" */
 export enum Diaries_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
   /** column name */
   Date = 'date',
   /** column name */
@@ -240,6 +266,7 @@ export enum Diaries_Select_Column {
 
 /** input type for updating data in table "diaries" */
 export type Diaries_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   text?: InputMaybe<Scalars['String']['input']>;
@@ -256,6 +283,7 @@ export type Diaries_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Diaries_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   text?: InputMaybe<Scalars['String']['input']>;
@@ -264,6 +292,8 @@ export type Diaries_Stream_Cursor_Value_Input = {
 
 /** update columns of table "diaries" */
 export enum Diaries_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
   /** column name */
   Date = 'date',
   /** column name */
@@ -284,7 +314,7 @@ export type Diaries_Updates = {
 /** columns and relationships of "messages" */
 export type Messages = {
   __typename?: 'messages';
-  created_at?: Maybe<Scalars['timestamp']['output']>;
+  created_at: Scalars['timestamp']['output'];
   date: Scalars['date']['output'];
   id: Scalars['uuid']['output'];
   text: Scalars['String']['output'];
@@ -507,6 +537,10 @@ export type Mutation_Root = {
   delete_messages?: Maybe<Messages_Mutation_Response>;
   /** delete single row from the table: "messages" */
   delete_messages_by_pk?: Maybe<Messages>;
+  /** delete data from the table: "questions" */
+  delete_questions?: Maybe<Questions_Mutation_Response>;
+  /** delete single row from the table: "questions" */
+  delete_questions_by_pk?: Maybe<Questions>;
   /** delete data from the table: "sentiments" */
   delete_sentiments?: Maybe<Sentiments_Mutation_Response>;
   /** delete single row from the table: "sentiments" */
@@ -515,6 +549,7 @@ export type Mutation_Root = {
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
   delete_users_by_pk?: Maybe<Users>;
+  generate_diary?: Maybe<GenerateDiaryOutput>;
   /** insert data into the table: "diaries" */
   insert_diaries?: Maybe<Diaries_Mutation_Response>;
   /** insert a single row into the table: "diaries" */
@@ -523,6 +558,10 @@ export type Mutation_Root = {
   insert_messages?: Maybe<Messages_Mutation_Response>;
   /** insert a single row into the table: "messages" */
   insert_messages_one?: Maybe<Messages>;
+  /** insert data into the table: "questions" */
+  insert_questions?: Maybe<Questions_Mutation_Response>;
+  /** insert a single row into the table: "questions" */
+  insert_questions_one?: Maybe<Questions>;
   /** insert data into the table: "sentiments" */
   insert_sentiments?: Maybe<Sentiments_Mutation_Response>;
   /** insert a single row into the table: "sentiments" */
@@ -543,6 +582,12 @@ export type Mutation_Root = {
   update_messages_by_pk?: Maybe<Messages>;
   /** update multiples rows of table: "messages" */
   update_messages_many?: Maybe<Array<Maybe<Messages_Mutation_Response>>>;
+  /** update data of the table: "questions" */
+  update_questions?: Maybe<Questions_Mutation_Response>;
+  /** update single row of the table: "questions" */
+  update_questions_by_pk?: Maybe<Questions>;
+  /** update multiples rows of table: "questions" */
+  update_questions_many?: Maybe<Array<Maybe<Questions_Mutation_Response>>>;
   /** update data of the table: "sentiments" */
   update_sentiments?: Maybe<Sentiments_Mutation_Response>;
   /** update single row of the table: "sentiments" */
@@ -566,8 +611,7 @@ export type Mutation_RootDelete_DiariesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Diaries_By_PkArgs = {
-  date: Scalars['date']['input'];
-  uid: Scalars['String']['input'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -579,6 +623,18 @@ export type Mutation_RootDelete_MessagesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Messages_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_QuestionsArgs = {
+  where: Questions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Questions_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -608,6 +664,13 @@ export type Mutation_RootDelete_Users_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootGenerate_DiaryArgs = {
+  date?: InputMaybe<Scalars['date']['input']>;
+  uid: Scalars['String']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_DiariesArgs = {
   objects: Array<Diaries_Insert_Input>;
   on_conflict?: InputMaybe<Diaries_On_Conflict>;
@@ -632,6 +695,20 @@ export type Mutation_RootInsert_MessagesArgs = {
 export type Mutation_RootInsert_Messages_OneArgs = {
   object: Messages_Insert_Input;
   on_conflict?: InputMaybe<Messages_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_QuestionsArgs = {
+  objects: Array<Questions_Insert_Input>;
+  on_conflict?: InputMaybe<Questions_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Questions_OneArgs = {
+  object: Questions_Insert_Input;
+  on_conflict?: InputMaybe<Questions_On_Conflict>;
 };
 
 
@@ -704,6 +781,26 @@ export type Mutation_RootUpdate_Messages_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_QuestionsArgs = {
+  _set?: InputMaybe<Questions_Set_Input>;
+  where: Questions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Questions_By_PkArgs = {
+  _set?: InputMaybe<Questions_Set_Input>;
+  pk_columns: Questions_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Questions_ManyArgs = {
+  updates: Array<Questions_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_SentimentsArgs = {
   _inc?: InputMaybe<Sentiments_Inc_Input>;
   _set?: InputMaybe<Sentiments_Set_Input>;
@@ -768,13 +865,18 @@ export type Query_Root = {
   diaries_aggregate: Diaries_Aggregate;
   /** fetch data from the table: "diaries" using primary key columns */
   diaries_by_pk?: Maybe<Diaries>;
-  hello?: Maybe<Scalars['String']['output']>;
   /** fetch data from the table: "messages" */
   messages: Array<Messages>;
   /** fetch aggregated fields from the table: "messages" */
   messages_aggregate: Messages_Aggregate;
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>;
+  /** fetch data from the table: "questions" */
+  questions: Array<Questions>;
+  /** fetch aggregated fields from the table: "questions" */
+  questions_aggregate: Questions_Aggregate;
+  /** fetch data from the table: "questions" using primary key columns */
+  questions_by_pk?: Maybe<Questions>;
   /** fetch data from the table: "sentiments" */
   sentiments: Array<Sentiments>;
   /** fetch aggregated fields from the table: "sentiments" */
@@ -809,8 +911,7 @@ export type Query_RootDiaries_AggregateArgs = {
 
 
 export type Query_RootDiaries_By_PkArgs = {
-  date: Scalars['date']['input'];
-  uid: Scalars['String']['input'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -833,6 +934,29 @@ export type Query_RootMessages_AggregateArgs = {
 
 
 export type Query_RootMessages_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootQuestionsArgs = {
+  distinct_on?: InputMaybe<Array<Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Questions_Order_By>>;
+  where?: InputMaybe<Questions_Bool_Exp>;
+};
+
+
+export type Query_RootQuestions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Questions_Order_By>>;
+  where?: InputMaybe<Questions_Bool_Exp>;
+};
+
+
+export type Query_RootQuestions_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -882,9 +1006,192 @@ export type Query_RootUsers_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
+/** columns and relationships of "questions" */
+export type Questions = {
+  __typename?: 'questions';
+  answer?: Maybe<Scalars['String']['output']>;
+  created_at: Scalars['timestamptz']['output'];
+  date: Scalars['date']['output'];
+  id: Scalars['uuid']['output'];
+  question: Scalars['String']['output'];
+  uid: Scalars['String']['output'];
+};
+
+/** aggregated selection of "questions" */
+export type Questions_Aggregate = {
+  __typename?: 'questions_aggregate';
+  aggregate?: Maybe<Questions_Aggregate_Fields>;
+  nodes: Array<Questions>;
+};
+
+/** aggregate fields of "questions" */
+export type Questions_Aggregate_Fields = {
+  __typename?: 'questions_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Questions_Max_Fields>;
+  min?: Maybe<Questions_Min_Fields>;
+};
+
+
+/** aggregate fields of "questions" */
+export type Questions_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Questions_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "questions". All fields are combined with a logical 'AND'. */
+export type Questions_Bool_Exp = {
+  _and?: InputMaybe<Array<Questions_Bool_Exp>>;
+  _not?: InputMaybe<Questions_Bool_Exp>;
+  _or?: InputMaybe<Array<Questions_Bool_Exp>>;
+  answer?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  date?: InputMaybe<Date_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  question?: InputMaybe<String_Comparison_Exp>;
+  uid?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "questions" */
+export enum Questions_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  QuestionsPkey = 'questions_pkey'
+}
+
+/** input type for inserting data into table "questions" */
+export type Questions_Insert_Input = {
+  answer?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  date?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+  uid?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Questions_Max_Fields = {
+  __typename?: 'questions_max_fields';
+  answer?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  date?: Maybe<Scalars['date']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  question?: Maybe<Scalars['String']['output']>;
+  uid?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Questions_Min_Fields = {
+  __typename?: 'questions_min_fields';
+  answer?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  date?: Maybe<Scalars['date']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  question?: Maybe<Scalars['String']['output']>;
+  uid?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "questions" */
+export type Questions_Mutation_Response = {
+  __typename?: 'questions_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Questions>;
+};
+
+/** on_conflict condition type for table "questions" */
+export type Questions_On_Conflict = {
+  constraint: Questions_Constraint;
+  update_columns?: Array<Questions_Update_Column>;
+  where?: InputMaybe<Questions_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "questions". */
+export type Questions_Order_By = {
+  answer?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  question?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: questions */
+export type Questions_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "questions" */
+export enum Questions_Select_Column {
+  /** column name */
+  Answer = 'answer',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Date = 'date',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Question = 'question',
+  /** column name */
+  Uid = 'uid'
+}
+
+/** input type for updating data in table "questions" */
+export type Questions_Set_Input = {
+  answer?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  date?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+  uid?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "questions" */
+export type Questions_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Questions_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Questions_Stream_Cursor_Value_Input = {
+  answer?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  date?: InputMaybe<Scalars['date']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+  uid?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "questions" */
+export enum Questions_Update_Column {
+  /** column name */
+  Answer = 'answer',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Date = 'date',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Question = 'question',
+  /** column name */
+  Uid = 'uid'
+}
+
+export type Questions_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Questions_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Questions_Bool_Exp;
+};
+
 /** columns and relationships of "sentiments" */
 export type Sentiments = {
   __typename?: 'sentiments';
+  created_at: Scalars['timestamptz']['output'];
   date: Scalars['date']['output'];
   id: Scalars['uuid']['output'];
   negative: Scalars['Int']['output'];
@@ -897,6 +1204,17 @@ export type Sentiments_Aggregate = {
   __typename?: 'sentiments_aggregate';
   aggregate?: Maybe<Sentiments_Aggregate_Fields>;
   nodes: Array<Sentiments>;
+};
+
+export type Sentiments_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Sentiments_Aggregate_Bool_Exp_Count>;
+};
+
+export type Sentiments_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Sentiments_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Sentiments_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "sentiments" */
@@ -922,6 +1240,28 @@ export type Sentiments_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "sentiments" */
+export type Sentiments_Aggregate_Order_By = {
+  avg?: InputMaybe<Sentiments_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Sentiments_Max_Order_By>;
+  min?: InputMaybe<Sentiments_Min_Order_By>;
+  stddev?: InputMaybe<Sentiments_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Sentiments_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Sentiments_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Sentiments_Sum_Order_By>;
+  var_pop?: InputMaybe<Sentiments_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Sentiments_Var_Samp_Order_By>;
+  variance?: InputMaybe<Sentiments_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "sentiments" */
+export type Sentiments_Arr_Rel_Insert_Input = {
+  data: Array<Sentiments_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Sentiments_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Sentiments_Avg_Fields = {
   __typename?: 'sentiments_avg_fields';
@@ -929,11 +1269,18 @@ export type Sentiments_Avg_Fields = {
   positive?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by avg() on columns of table "sentiments" */
+export type Sentiments_Avg_Order_By = {
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
+};
+
 /** Boolean expression to filter rows from the table "sentiments". All fields are combined with a logical 'AND'. */
 export type Sentiments_Bool_Exp = {
   _and?: InputMaybe<Array<Sentiments_Bool_Exp>>;
   _not?: InputMaybe<Sentiments_Bool_Exp>;
   _or?: InputMaybe<Array<Sentiments_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   date?: InputMaybe<Date_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   negative?: InputMaybe<Int_Comparison_Exp>;
@@ -943,10 +1290,10 @@ export type Sentiments_Bool_Exp = {
 
 /** unique or primary key constraints on table "sentiments" */
 export enum Sentiments_Constraint {
-  /** unique or primary key constraint on columns "uid", "date" */
-  SentimentsDateUidKey = 'sentiments_date_uid_key',
   /** unique or primary key constraint on columns "id" */
-  SentimentsPkey = 'sentiments_pkey'
+  SentimentsPkey = 'sentiments_pkey',
+  /** unique or primary key constraint on columns "uid", "date" */
+  SentimentsUidDateKey = 'sentiments_uid_date_key'
 }
 
 /** input type for incrementing numeric columns in table "sentiments" */
@@ -957,6 +1304,7 @@ export type Sentiments_Inc_Input = {
 
 /** input type for inserting data into table "sentiments" */
 export type Sentiments_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   negative?: InputMaybe<Scalars['Int']['input']>;
@@ -967,6 +1315,7 @@ export type Sentiments_Insert_Input = {
 /** aggregate max on columns */
 export type Sentiments_Max_Fields = {
   __typename?: 'sentiments_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   date?: Maybe<Scalars['date']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   negative?: Maybe<Scalars['Int']['output']>;
@@ -974,14 +1323,35 @@ export type Sentiments_Max_Fields = {
   uid?: Maybe<Scalars['String']['output']>;
 };
 
+/** order by max() on columns of table "sentiments" */
+export type Sentiments_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Sentiments_Min_Fields = {
   __typename?: 'sentiments_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   date?: Maybe<Scalars['date']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   negative?: Maybe<Scalars['Int']['output']>;
   positive?: Maybe<Scalars['Int']['output']>;
   uid?: Maybe<Scalars['String']['output']>;
+};
+
+/** order by min() on columns of table "sentiments" */
+export type Sentiments_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "sentiments" */
@@ -993,13 +1363,6 @@ export type Sentiments_Mutation_Response = {
   returning: Array<Sentiments>;
 };
 
-/** input type for inserting object relation for remote table "sentiments" */
-export type Sentiments_Obj_Rel_Insert_Input = {
-  data: Sentiments_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Sentiments_On_Conflict>;
-};
-
 /** on_conflict condition type for table "sentiments" */
 export type Sentiments_On_Conflict = {
   constraint: Sentiments_Constraint;
@@ -1009,6 +1372,7 @@ export type Sentiments_On_Conflict = {
 
 /** Ordering options when selecting data from "sentiments". */
 export type Sentiments_Order_By = {
+  created_at?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   negative?: InputMaybe<Order_By>;
@@ -1024,6 +1388,8 @@ export type Sentiments_Pk_Columns_Input = {
 /** select columns of table "sentiments" */
 export enum Sentiments_Select_Column {
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Date = 'date',
   /** column name */
   Id = 'id',
@@ -1037,6 +1403,7 @@ export enum Sentiments_Select_Column {
 
 /** input type for updating data in table "sentiments" */
 export type Sentiments_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   negative?: InputMaybe<Scalars['Int']['input']>;
@@ -1051,6 +1418,12 @@ export type Sentiments_Stddev_Fields = {
   positive?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev() on columns of table "sentiments" */
+export type Sentiments_Stddev_Order_By = {
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Sentiments_Stddev_Pop_Fields = {
   __typename?: 'sentiments_stddev_pop_fields';
@@ -1058,11 +1431,23 @@ export type Sentiments_Stddev_Pop_Fields = {
   positive?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev_pop() on columns of table "sentiments" */
+export type Sentiments_Stddev_Pop_Order_By = {
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_samp on columns */
 export type Sentiments_Stddev_Samp_Fields = {
   __typename?: 'sentiments_stddev_samp_fields';
   negative?: Maybe<Scalars['Float']['output']>;
   positive?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "sentiments" */
+export type Sentiments_Stddev_Samp_Order_By = {
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "sentiments" */
@@ -1075,6 +1460,7 @@ export type Sentiments_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Sentiments_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   negative?: InputMaybe<Scalars['Int']['input']>;
@@ -1089,8 +1475,16 @@ export type Sentiments_Sum_Fields = {
   positive?: Maybe<Scalars['Int']['output']>;
 };
 
+/** order by sum() on columns of table "sentiments" */
+export type Sentiments_Sum_Order_By = {
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
+};
+
 /** update columns of table "sentiments" */
 export enum Sentiments_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
   /** column name */
   Date = 'date',
   /** column name */
@@ -1119,6 +1513,12 @@ export type Sentiments_Var_Pop_Fields = {
   positive?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_pop() on columns of table "sentiments" */
+export type Sentiments_Var_Pop_Order_By = {
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Sentiments_Var_Samp_Fields = {
   __typename?: 'sentiments_var_samp_fields';
@@ -1126,11 +1526,23 @@ export type Sentiments_Var_Samp_Fields = {
   positive?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_samp() on columns of table "sentiments" */
+export type Sentiments_Var_Samp_Order_By = {
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Sentiments_Variance_Fields = {
   __typename?: 'sentiments_variance_fields';
   negative?: Maybe<Scalars['Float']['output']>;
   positive?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "sentiments" */
+export type Sentiments_Variance_Order_By = {
+  negative?: InputMaybe<Order_By>;
+  positive?: InputMaybe<Order_By>;
 };
 
 export type Subscription_Root = {
@@ -1151,6 +1563,14 @@ export type Subscription_Root = {
   messages_by_pk?: Maybe<Messages>;
   /** fetch data from the table in a streaming manner: "messages" */
   messages_stream: Array<Messages>;
+  /** fetch data from the table: "questions" */
+  questions: Array<Questions>;
+  /** fetch aggregated fields from the table: "questions" */
+  questions_aggregate: Questions_Aggregate;
+  /** fetch data from the table: "questions" using primary key columns */
+  questions_by_pk?: Maybe<Questions>;
+  /** fetch data from the table in a streaming manner: "questions" */
+  questions_stream: Array<Questions>;
   /** fetch data from the table: "sentiments" */
   sentiments: Array<Sentiments>;
   /** fetch aggregated fields from the table: "sentiments" */
@@ -1189,8 +1609,7 @@ export type Subscription_RootDiaries_AggregateArgs = {
 
 
 export type Subscription_RootDiaries_By_PkArgs = {
-  date: Scalars['date']['input'];
-  uid: Scalars['String']['input'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -1228,6 +1647,36 @@ export type Subscription_RootMessages_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Messages_Stream_Cursor_Input>>;
   where?: InputMaybe<Messages_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuestionsArgs = {
+  distinct_on?: InputMaybe<Array<Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Questions_Order_By>>;
+  where?: InputMaybe<Questions_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuestions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Questions_Order_By>>;
+  where?: InputMaybe<Questions_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuestions_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootQuestions_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Questions_Stream_Cursor_Input>>;
+  where?: InputMaybe<Questions_Bool_Exp>;
 };
 
 
@@ -1303,12 +1752,97 @@ export type Timestamp_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamp']['input']>>;
 };
 
+/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+export type Timestamptz_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _lte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _neq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+};
+
 /** columns and relationships of "users" */
 export type Users = {
   __typename?: 'users';
+  created_at: Scalars['timestamptz']['output'];
+  /** fetch data from the table: "diaries" */
+  diaries: Array<Diaries>;
+  /** fetch aggregated fields from the table: "diaries" */
+  diaries_aggregate: Diaries_Aggregate;
   id: Scalars['uuid']['output'];
-  name: Scalars['String']['output'];
+  /** fetch data from the table: "messages" */
+  messages: Array<Messages>;
+  /** fetch aggregated fields from the table: "messages" */
+  messages_aggregate: Messages_Aggregate;
+  /** fetch data from the table: "sentiments" */
+  sentiments: Array<Sentiments>;
+  /** fetch aggregated fields from the table: "sentiments" */
+  sentiments_aggregate: Sentiments_Aggregate;
   uid: Scalars['String']['output'];
+};
+
+
+/** columns and relationships of "users" */
+export type UsersDiariesArgs = {
+  distinct_on?: InputMaybe<Array<Diaries_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Diaries_Order_By>>;
+  where?: InputMaybe<Diaries_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersDiaries_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Diaries_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Diaries_Order_By>>;
+  where?: InputMaybe<Diaries_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersMessagesArgs = {
+  distinct_on?: InputMaybe<Array<Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Messages_Order_By>>;
+  where?: InputMaybe<Messages_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersMessages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Messages_Order_By>>;
+  where?: InputMaybe<Messages_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersSentimentsArgs = {
+  distinct_on?: InputMaybe<Array<Sentiments_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Sentiments_Order_By>>;
+  where?: InputMaybe<Sentiments_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersSentiments_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Sentiments_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Sentiments_Order_By>>;
+  where?: InputMaybe<Sentiments_Bool_Exp>;
 };
 
 /** aggregated selection of "users" */
@@ -1338,8 +1872,14 @@ export type Users_Bool_Exp = {
   _and?: InputMaybe<Array<Users_Bool_Exp>>;
   _not?: InputMaybe<Users_Bool_Exp>;
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  diaries?: InputMaybe<Diaries_Bool_Exp>;
+  diaries_aggregate?: InputMaybe<Diaries_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
+  messages?: InputMaybe<Messages_Bool_Exp>;
+  messages_aggregate?: InputMaybe<Messages_Aggregate_Bool_Exp>;
+  sentiments?: InputMaybe<Sentiments_Bool_Exp>;
+  sentiments_aggregate?: InputMaybe<Sentiments_Aggregate_Bool_Exp>;
   uid?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -1355,24 +1895,27 @@ export enum Users_Constraint {
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  diaries?: InputMaybe<Diaries_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
+  messages?: InputMaybe<Messages_Arr_Rel_Insert_Input>;
+  sentiments?: InputMaybe<Sentiments_Arr_Rel_Insert_Input>;
   uid?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Users_Max_Fields = {
   __typename?: 'users_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
   uid?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Users_Min_Fields = {
   __typename?: 'users_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
   uid?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1394,8 +1937,11 @@ export type Users_On_Conflict = {
 
 /** Ordering options when selecting data from "users". */
 export type Users_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  diaries_aggregate?: InputMaybe<Diaries_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
+  messages_aggregate?: InputMaybe<Messages_Aggregate_Order_By>;
+  sentiments_aggregate?: InputMaybe<Sentiments_Aggregate_Order_By>;
   uid?: InputMaybe<Order_By>;
 };
 
@@ -1407,17 +1953,17 @@ export type Users_Pk_Columns_Input = {
 /** select columns of table "users" */
 export enum Users_Select_Column {
   /** column name */
-  Id = 'id',
+  CreatedAt = 'created_at',
   /** column name */
-  Name = 'name',
+  Id = 'id',
   /** column name */
   Uid = 'uid'
 }
 
 /** input type for updating data in table "users" */
 export type Users_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
   uid?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1431,17 +1977,17 @@ export type Users_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Users_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
   uid?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "users" */
 export enum Users_Update_Column {
   /** column name */
-  Id = 'id',
+  CreatedAt = 'created_at',
   /** column name */
-  Name = 'name',
+  Id = 'id',
   /** column name */
   Uid = 'uid'
 }
@@ -1467,39 +2013,46 @@ export type Uuid_Comparison_Exp = {
 };
 
 export type AddDiaryTodayMutationVariables = Exact<{
-  text?: InputMaybe<Scalars['String']['input']>;
-  uid?: InputMaybe<Scalars['String']['input']>;
-  date?: InputMaybe<Scalars['date']['input']>;
+  text: Scalars['String']['input'];
+  uid: Scalars['String']['input'];
+  date: Scalars['date']['input'];
 }>;
 
 
-export type AddDiaryTodayMutation = { __typename?: 'mutation_root', insert_diaries?: { __typename?: 'diaries_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'diaries', id: any, text: string, date: any, uid: string }> } | null };
+export type AddDiaryTodayMutation = { __typename?: 'mutation_root', insert_diaries?: { __typename?: 'diaries_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'diaries', created_at: any, date: any, id: any, text: string, uid: string }> } | null };
 
 export type AddMessageMutationVariables = Exact<{
   text: Scalars['String']['input'];
-  date?: InputMaybe<Scalars['date']['input']>;
+  date: Scalars['date']['input'];
   uid: Scalars['String']['input'];
   negative: Scalars['Int']['input'];
   positive: Scalars['Int']['input'];
 }>;
 
 
-export type AddMessageMutation = { __typename?: 'mutation_root', insert_messages_one?: { __typename?: 'messages', created_at?: any | null, date: any, id: any, text: string, uid: string } | null, insert_sentiments_one?: { __typename?: 'sentiments', date: any, negative: number, positive: number, uid: string } | null, update_sentiments?: { __typename?: 'sentiments_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'sentiments', date: any, id: any, negative: number, positive: number, uid: string }> } | null };
+export type AddMessageMutation = { __typename?: 'mutation_root', insert_messages_one?: { __typename?: 'messages', created_at: any, date: any, id: any, text: string, uid: string } | null, insert_sentiments_one?: { __typename?: 'sentiments', created_at: any, date: any, id: any, negative: number, positive: number, uid: string } | null, update_sentiments?: { __typename?: 'sentiments_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'sentiments', created_at: any, date: any, id: any, negative: number, positive: number, uid: string }> } | null };
 
 export type AddUserMutationVariables = Exact<{
   uid: Scalars['String']['input'];
-  name: Scalars['String']['input'];
 }>;
 
 
-export type AddUserMutation = { __typename?: 'mutation_root', insert_users?: { __typename?: 'users_mutation_response', returning: Array<{ __typename?: 'users', name: string, uid: string }> } | null };
+export type AddUserMutation = { __typename?: 'mutation_root', insert_users?: { __typename?: 'users_mutation_response', returning: Array<{ __typename?: 'users', created_at: any, id: any, uid: string }> } | null };
 
 export type DeleteUserMutationVariables = Exact<{
   uid: Scalars['String']['input'];
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'mutation_root', delete_users?: { __typename?: 'users_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'users', id: any, name: string, uid: string }> } | null };
+export type DeleteUserMutation = { __typename?: 'mutation_root', delete_users?: { __typename?: 'users_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'users', created_at: any, id: any, uid: string }> } | null };
+
+export type GenerateDiaryMutationVariables = Exact<{
+  uid: Scalars['String']['input'];
+  date?: InputMaybe<Scalars['date']['input']>;
+}>;
+
+
+export type GenerateDiaryMutation = { __typename?: 'mutation_root', generate_diary?: { __typename?: 'GenerateDiaryOutput', date: any, text: string, uid: string, updated_diary?: { __typename?: 'diaries', created_at: any, date: any, id: any, text: string, uid: string } | null } | null };
 
 export type GetDiaryTodayQueryVariables = Exact<{
   date: Scalars['date']['input'];
@@ -1507,16 +2060,15 @@ export type GetDiaryTodayQueryVariables = Exact<{
 }>;
 
 
-export type GetDiaryTodayQuery = { __typename?: 'query_root', diaries_by_pk?: { __typename?: 'diaries', date: any, text: string, uid: string, id: any } | null };
+export type GetDiaryTodayQuery = { __typename?: 'query_root', diaries: Array<{ __typename?: 'diaries', created_at: any, date: any, id: any, text: string, uid: string }> };
 
 export type GetMessagesQueryVariables = Exact<{
   uid: Scalars['String']['input'];
-  from: Scalars['timestamp']['input'];
-  to?: InputMaybe<Scalars['timestamp']['input']>;
+  date: Scalars['date']['input'];
 }>;
 
 
-export type GetMessagesQuery = { __typename?: 'query_root', messages: Array<{ __typename?: 'messages', date: any, text: string, uid: string, created_at?: any | null, id: any }> };
+export type GetMessagesQuery = { __typename?: 'query_root', messages: Array<{ __typename?: 'messages', created_at: any, date: any, id: any, text: string, uid: string }> };
 
 export type GetSentimentAtQueryVariables = Exact<{
   count?: InputMaybe<Scalars['Int']['input']>;
@@ -1525,7 +2077,7 @@ export type GetSentimentAtQueryVariables = Exact<{
 }>;
 
 
-export type GetSentimentAtQuery = { __typename?: 'query_root', sentiments: Array<{ __typename?: 'sentiments', date: any, negative: number, positive: number, uid: string }> };
+export type GetSentimentAtQuery = { __typename?: 'query_root', sentiments: Array<{ __typename?: 'sentiments', created_at: any, date: any, id: any, negative: number, positive: number, uid: string }> };
 
 export type GetSentimentsBetweenQueryVariables = Exact<{
   count?: InputMaybe<Scalars['Int']['input']>;
@@ -1535,35 +2087,36 @@ export type GetSentimentsBetweenQueryVariables = Exact<{
 }>;
 
 
-export type GetSentimentsBetweenQuery = { __typename?: 'query_root', sentiments: Array<{ __typename?: 'sentiments', date: any, negative: number, positive: number, uid: string }> };
+export type GetSentimentsBetweenQuery = { __typename?: 'query_root', sentiments: Array<{ __typename?: 'sentiments', created_at: any, date: any, id: any, negative: number, positive: number, uid: string }> };
 
 export type GetUserQueryVariables = Exact<{
   uid?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetUserQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', name: string }> };
+export type GetUserQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', created_at: any, id: any, uid: string }> };
 
 
 export const AddDiaryTodayDocument = gql`
-    mutation AddDiaryToday($text: String, $uid: String, $date: date = "now") {
+    mutation AddDiaryToday($text: String!, $uid: String!, $date: date!) {
   insert_diaries(
     objects: {text: $text, uid: $uid, date: $date}
-    on_conflict: {constraint: diaries_date_uid_key}
+    on_conflict: {constraint: diaries_uid_date_key}
   ) {
     affected_rows
     returning {
+      created_at
+      date
       id
       text
-      date
       uid
     }
   }
 }
     `;
 export const AddMessageDocument = gql`
-    mutation AddMessage($text: String!, $date: date = "now", $uid: String!, $negative: Int!, $positive: Int!) {
-  insert_messages_one(object: {text: $text, uid: $uid}) {
+    mutation AddMessage($text: String!, $date: date!, $uid: String!, $negative: Int!, $positive: Int!) {
+  insert_messages_one(object: {date: $date, text: $text, uid: $uid}) {
     created_at
     date
     id
@@ -1572,9 +2125,11 @@ export const AddMessageDocument = gql`
   }
   insert_sentiments_one(
     object: {date: $date, uid: $uid}
-    on_conflict: {constraint: sentiments_date_uid_key}
+    on_conflict: {constraint: sentiments_uid_date_key}
   ) {
+    created_at
     date
+    id
     negative
     positive
     uid
@@ -1585,6 +2140,7 @@ export const AddMessageDocument = gql`
   ) {
     affected_rows
     returning {
+      created_at
       date
       id
       negative
@@ -1595,10 +2151,11 @@ export const AddMessageDocument = gql`
 }
     `;
 export const AddUserDocument = gql`
-    mutation AddUser($uid: String!, $name: String!) {
-  insert_users(objects: {uid: $uid, name: $name}) {
+    mutation AddUser($uid: String!) {
+  insert_users(objects: {uid: $uid}) {
     returning {
-      name
+      created_at
+      id
       uid
     }
   }
@@ -1609,8 +2166,24 @@ export const DeleteUserDocument = gql`
   delete_users(where: {uid: {_eq: $uid}}) {
     affected_rows
     returning {
+      created_at
       id
-      name
+      uid
+    }
+  }
+}
+    `;
+export const GenerateDiaryDocument = gql`
+    mutation GenerateDiary($uid: String!, $date: date) {
+  generate_diary(uid: $uid, date: $date) {
+    date
+    text
+    uid
+    updated_diary {
+      created_at
+      date
+      id
+      text
       uid
     }
   }
@@ -1618,25 +2191,26 @@ export const DeleteUserDocument = gql`
     `;
 export const GetDiaryTodayDocument = gql`
     query GetDiaryToday($date: date!, $uid: String!) {
-  diaries_by_pk(date: $date, uid: $uid) {
+  diaries(where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    created_at
     date
+    id
     text
     uid
-    id
   }
 }
     `;
 export const GetMessagesDocument = gql`
-    query GetMessages($uid: String!, $from: timestamp!, $to: timestamp = "now") {
+    query GetMessages($uid: String!, $date: date!) {
   messages(
-    where: {uid: {_eq: $uid}, _and: {created_at: {_gte: $from, _lte: $to}}}
+    where: {uid: {_eq: $uid}, date: {_eq: $date}}
     order_by: {created_at: asc}
   ) {
+    created_at
     date
+    id
     text
     uid
-    created_at
-    id
   }
 }
     `;
@@ -1647,7 +2221,9 @@ export const GetSentimentAtDocument = gql`
     order_by: {date: asc}
     where: {date: {_eq: $date}, uid: {_eq: $uid}}
   ) {
+    created_at
     date
+    id
     negative
     positive
     uid
@@ -1661,7 +2237,9 @@ export const GetSentimentsBetweenDocument = gql`
     order_by: {date: asc}
     where: {uid: {_eq: $uid}, _and: {date: {_gte: $dateFrom, _lte: $dateTo}}}
   ) {
+    created_at
     date
+    id
     negative
     positive
     uid
@@ -1671,7 +2249,9 @@ export const GetSentimentsBetweenDocument = gql`
 export const GetUserDocument = gql`
     query GetUser($uid: String) {
   users(where: {uid: {_eq: $uid}}) {
-    name
+    created_at
+    id
+    uid
   }
 }
     `;
@@ -1683,7 +2263,7 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    AddDiaryToday(variables?: AddDiaryTodayMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddDiaryTodayMutation> {
+    AddDiaryToday(variables: AddDiaryTodayMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddDiaryTodayMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<AddDiaryTodayMutation>(AddDiaryTodayDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddDiaryToday', 'mutation', variables);
     },
     AddMessage(variables: AddMessageMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddMessageMutation> {
@@ -1694,6 +2274,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     DeleteUser(variables: DeleteUserMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DeleteUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserMutation>(DeleteUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteUser', 'mutation', variables);
+    },
+    GenerateDiary(variables: GenerateDiaryMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GenerateDiaryMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GenerateDiaryMutation>(GenerateDiaryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GenerateDiary', 'mutation', variables);
     },
     GetDiaryToday(variables: GetDiaryTodayQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetDiaryTodayQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDiaryTodayQuery>(GetDiaryTodayDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetDiaryToday', 'query', variables);

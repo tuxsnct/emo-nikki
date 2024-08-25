@@ -1,10 +1,11 @@
-mutation AddDiaryToday($text: String, $uid: String, $date: date = "now") {
-  insert_diaries(objects: {text: $text, uid: $uid, date: $date}, on_conflict: {constraint: diaries_date_uid_key}) {
+mutation AddDiaryToday($text: String!, $uid: String!, $date: date!) {
+  insert_diaries(objects: {text: $text, uid: $uid, date: $date}, on_conflict: {constraint: diaries_uid_date_key}) {
     affected_rows
     returning {
+      created_at
+      date
       id
       text
-      date
       uid
     }
   }

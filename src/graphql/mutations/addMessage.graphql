@@ -1,13 +1,15 @@
-mutation AddMessage($text: String!, $date: date = "now", $uid: String!, $negative: Int!, $positive: Int!) {
-  insert_messages_one(object: {text: $text, uid: $uid}) {
+mutation AddMessage($text: String!, $date: date!, $uid: String!, $negative: Int!, $positive: Int!) {
+  insert_messages_one(object: {date: $date, text: $text, uid: $uid}) {
     created_at
     date
     id
     text
     uid
   }
-  insert_sentiments_one(object: {date: $date, uid: $uid}, on_conflict: {constraint: sentiments_date_uid_key}) {
+  insert_sentiments_one(object: {date: $date, uid: $uid}, on_conflict: {constraint: sentiments_uid_date_key}) {
+    created_at
     date
+    id
     negative
     positive
     uid
@@ -15,6 +17,7 @@ mutation AddMessage($text: String!, $date: date = "now", $uid: String!, $negativ
   update_sentiments(where: {date: {_eq: $date}, uid: {_eq: $uid}}, _inc: {negative: $negative, positive: $positive}) {
     affected_rows
     returning {
+      created_at
       date
       id
       negative

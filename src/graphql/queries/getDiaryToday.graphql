@@ -1,8 +1,9 @@
 query GetDiaryToday($date: date!, $uid: String!) {
-  diaries_by_pk(date: $date, uid: $uid) {
+  diaries(where: {date: {_eq: $date}, uid: {_eq: $uid}}) {
+    created_at
     date
+    id
     text
     uid
-    id
   }
 }

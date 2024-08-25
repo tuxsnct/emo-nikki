@@ -1,9 +1,9 @@
-query GetMessages($uid: String!, $from: timestamp!, $to: timestamp = "now") {
-  messages(where: {uid: {_eq: $uid}, _and: {created_at: {_gte: $from, _lte: $to}}}, order_by: {created_at: asc}) {
+query GetMessages($uid: String!, $date: date!) {
+  messages(where: {uid: {_eq: $uid}, date: {_eq: $date}}, order_by: {created_at: asc}) {
+    created_at
     date
+    id
     text
     uid
-    created_at
-    id
   }
 }

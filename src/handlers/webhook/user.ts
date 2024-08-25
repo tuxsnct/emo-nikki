@@ -13,7 +13,7 @@ export const handleUserRegister = async (
     let message: string;
     try {
         const user = await clients.messaging.getProfile(userId);
-        const query = await clients.graphql.AddUser({name: user.displayName, uid: userId});
+        const query = await clients.graphql.AddUser({uid: userId});
         if (query.insert_users) {
             await clients.messaging.linkRichMenuIdToUser(userId, richmenus.diary);
             message = `登録が完了しました!${user.displayName}さん、こんにちは！`;

@@ -1,7 +1,8 @@
-mutation AddUser($uid: String!, $name: String!) {
-  insert_users(objects: {uid: $uid, name: $name}) {
+mutation AddUser($uid: String!) {
+  insert_users(objects: {uid: $uid}) {
     returning {
-      name
+      created_at
+      id
       uid
     }
   }

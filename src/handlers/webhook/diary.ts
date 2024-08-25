@@ -1,6 +1,7 @@
 import {Clients} from "../../clients";
 import {messagingApi, WebhookEvent} from "@line/bot-sdk";
 import {generateDiary} from "../../utils";
+import {DateTime} from "luxon";
 
 export const handleDiaryToday = async (
     clients: Clients,
@@ -10,16 +11,10 @@ export const handleDiaryToday = async (
     const {replyToken, source: {userId}} = event;
     if (!replyToken || !userId) return;
 
-    await clients.messaging.replyMessage({
-        replyToken,
-        messages: [{type: "text", text: "日記を生成中です"}],
-    });
-    await clients.messaging.showLoadingAnimation({chatId: userId, loadingSeconds: 10});
-
     return await generateDiary<Promise<messagingApi.ReplyMessageResponse | void>>({
         clients,
         uid: userId,
-        date: new Date(),
+        date: DateTime.local(),
         handlers: {
             ok: async (message) => {
                 await clients.messaging.pushMessage({
@@ -31,6 +26,13 @@ export const handleDiaryToday = async (
                 to: userId,
                 messages: [{type: "text", text: "メッセージがありません"}],
             }),
+            started: async () => {
+                await clients.messaging.pushMessage({
+                    to: userId,
+                    messages: [{type: "text", text: "日記を生成中です"}],
+                });
+                await clients.messaging.showLoadingAnimation({chatId: userId, loadingSeconds: 10});
+            },
             failedToGenerate: async () => {
                 await clients.messaging.pushMessage({
                     to: userId,

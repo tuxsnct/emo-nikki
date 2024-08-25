@@ -1,0 +1,14 @@
+mutation GenerateDiary($uid: String!, $date: date) {
+  generate_diary(uid: $uid, date: $date) {
+    date
+    text
+    uid
+    updated_diary {
+      created_at
+      date
+      id
+      text
+      uid
+    }
+  }
+}
