@@ -77,7 +77,7 @@ const handleMessageWithSentiment = async (
     userId: string,
     text: string
 ) => {
-    await clients.messaging.showLoadingAnimation({chatId: userId, loadingSeconds: 5});
+    // await clients.messaging.showLoadingAnimation({chatId: userId, loadingSeconds: 5});
     // const sentiment = await clients.language.analyzeSentiment(text);
     const chatCompletion = await clients.openai.beta.chat.completions.parse({
         model: "gpt-3.5-turbo",
@@ -111,9 +111,9 @@ const handleMessageWithSentiment = async (
     });
     // const sentiment = chatCompletion.choices[0].message.parsed as unknown as Sentiment;
     const jsonString = chatCompletion.choices[0].message.content;
-    let message: string;
+    // let message: string;
     if (!jsonString) {
-        message = "感情分析に失敗しました";
+        // message = "感情分析に失敗しました";
     } else {
         const sentiment = JSON.parse(jsonString) as unknown as Sentiment;
         // const positive = sentiment.documentSentiment?.score > 0.4 ? 1 : 0;
@@ -130,11 +130,11 @@ const handleMessageWithSentiment = async (
         //             ? `ニュートラルなメッセージを受け取りました: ${sentiment.documentSentiment?.score}`
         //             : `ネガティブなメッセージを受け取りました: ${sentiment.documentSentiment?.score}`,
         // };
-        message = positive > negative
-            ? `ポジティブなメッセージを受け取りました: ${sentiment.score}`
-            : positive === negative
-                ? `ニュートラルなメッセージを受け取りました: ${sentiment.score}`
-                : `ネガティブなメッセージを受け取りました: ${sentiment.score}`;
+        // message = positive > negative
+        //     ? `ポジティブなメッセージを受け取りました: ${sentiment.score}`
+        //     : positive === negative
+        //         ? `ニュートラルなメッセージを受け取りました: ${sentiment.score}`
+        //         : `ネガティブなメッセージを受け取りました: ${sentiment.score}`;
     }
-    await clients.messaging.replyMessage({replyToken: replyToken, messages: [{type: "text", text: message}]});
+    // await clients.messaging.replyMessage({replyToken: replyToken, messages: [{type: "text", text: message}]});
 }

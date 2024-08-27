@@ -17,32 +17,32 @@ export const handleDiaryToday = async (
         date: DateTime.local(),
         handlers: {
             ok: async (message) => {
-                await clients.messaging.pushMessage({
-                    to: userId,
+                await clients.messaging.replyMessage({
+                    replyToken,
                     messages: [{type: "text", text: "日記を生成しました"}, {type: "text", text: message}],
                 })
             },
-            noMessages: () => clients.messaging.pushMessage({
-                to: userId,
+            noMessages: () => clients.messaging.replyMessage({
+                replyToken,
                 messages: [{type: "text", text: "メッセージがありません"}],
             }),
             started: async () => {
-                await clients.messaging.pushMessage({
-                    to: userId,
+                await clients.messaging.replyMessage({
+                    replyToken,
                     messages: [{type: "text", text: "日記を生成中です"}],
                 });
                 await clients.messaging.showLoadingAnimation({chatId: userId, loadingSeconds: 10});
             },
             failedToGenerate: async (error) => {
-                await clients.messaging.pushMessage({
-                    to: userId,
+                await clients.messaging.replyMessage({
+                    replyToken,
                     messages: [{type: "text", text: "日記の生成に失敗しました"}],
                 })
                 throw error;
             },
             alreadyGenerated: async (message) => {
-                await clients.messaging.pushMessage({
-                    to: userId,
+                await clients.messaging.replyMessage({
+                    replyToken,
                     messages: [{type: "text", text: "既に日記が生成されています"}, {type: "text", text: message}],
                 })
             },

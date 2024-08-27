@@ -17,8 +17,8 @@ export const handleQuestionToday = async (
         date: DateTime.local(),
         handlers: {
             ok: async (question) => {
-                await clients.messaging.pushMessage({
-                    to: userId,
+                await clients.messaging.replyMessage({
+                    replyToken,
                     messages: [
                         {type: "text", text: "質問を生成しました"},
                         {type: "text", text: question},
@@ -27,29 +27,29 @@ export const handleQuestionToday = async (
                 });
             },
             noDiary: async () => {
-                await clients.messaging.pushMessage({
-                    to: userId,
+                await clients.messaging.replyMessage({
+                    replyToken,
                     messages: [{type: "text", text: "日記がありません"}],
                 });
             },
             started: async () => {
-                await clients.messaging.pushMessage({
-                    to: userId,
+                await clients.messaging.replyMessage({
+                    replyToken,
                     messages: [{type: "text", text: "質問を生成中です"}],
                 });
                 await clients.messaging.showLoadingAnimation({chatId: userId, loadingSeconds: 10});
             },
             failedToGenerate: async (error) => {
-                await clients.messaging.pushMessage({
-                    to: userId,
+                await clients.messaging.replyMessage({
+                    replyToken,
                     messages: [{type: "text", text: "質問の生成に失敗しました"}],
                 });
                 throw error;
             },
             alreadyGenerated: async (question, answer) => {
                 if (answer) {
-                    await clients.messaging.pushMessage({
-                        to: userId,
+                    await clients.messaging.replyMessage({
+                        replyToken,
                         messages: [
                             {type: "text", text: "既に回答が保存されています"},
                             {type: "text", text: question},
@@ -58,8 +58,8 @@ export const handleQuestionToday = async (
                     });
                 } else {
                     await clients.graphql.AddSession({uid: userId, date: DateTime.local().toISODate(), question});
-                    await clients.messaging.pushMessage({
-                        to: userId,
+                    await clients.messaging.replyMessage({
+                        replyToken,
                         messages: [
                             {type: "text", text: "既に質問が生成されています"},
                             {type: "text", text: question},

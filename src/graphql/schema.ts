@@ -937,9 +937,9 @@ export type Query_Root = {
   question_sessions_aggregate: Question_Sessions_Aggregate;
   /** fetch data from the table: "question_sessions" using primary key columns */
   question_sessions_by_pk?: Maybe<Question_Sessions>;
-  /** fetch data from the table: "questions" */
+  /** An array relationship */
   questions: Array<Questions>;
-  /** fetch aggregated fields from the table: "questions" */
+  /** An aggregate relationship */
   questions_aggregate: Questions_Aggregate;
   /** fetch data from the table: "questions" using primary key columns */
   questions_by_pk?: Maybe<Questions>;
@@ -1309,6 +1309,17 @@ export type Questions_Aggregate = {
   nodes: Array<Questions>;
 };
 
+export type Questions_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Questions_Aggregate_Bool_Exp_Count>;
+};
+
+export type Questions_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Questions_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Questions_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "questions" */
 export type Questions_Aggregate_Fields = {
   __typename?: 'questions_aggregate_fields';
@@ -1322,6 +1333,20 @@ export type Questions_Aggregate_Fields = {
 export type Questions_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Questions_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "questions" */
+export type Questions_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Questions_Max_Order_By>;
+  min?: InputMaybe<Questions_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "questions" */
+export type Questions_Arr_Rel_Insert_Input = {
+  data: Array<Questions_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Questions_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "questions". All fields are combined with a logical 'AND'. */
@@ -1366,6 +1391,16 @@ export type Questions_Max_Fields = {
   uid?: Maybe<Scalars['String']['output']>;
 };
 
+/** order by max() on columns of table "questions" */
+export type Questions_Max_Order_By = {
+  answer?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  question?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Questions_Min_Fields = {
   __typename?: 'questions_min_fields';
@@ -1375,6 +1410,16 @@ export type Questions_Min_Fields = {
   id?: Maybe<Scalars['uuid']['output']>;
   question?: Maybe<Scalars['String']['output']>;
   uid?: Maybe<Scalars['String']['output']>;
+};
+
+/** order by min() on columns of table "questions" */
+export type Questions_Min_Order_By = {
+  answer?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  question?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "questions" */
@@ -1858,9 +1903,9 @@ export type Subscription_Root = {
   question_sessions_by_pk?: Maybe<Question_Sessions>;
   /** fetch data from the table in a streaming manner: "question_sessions" */
   question_sessions_stream: Array<Question_Sessions>;
-  /** fetch data from the table: "questions" */
+  /** An array relationship */
   questions: Array<Questions>;
-  /** fetch aggregated fields from the table: "questions" */
+  /** An aggregate relationship */
   questions_aggregate: Questions_Aggregate;
   /** fetch data from the table: "questions" using primary key columns */
   questions_by_pk?: Maybe<Questions>;
@@ -2103,6 +2148,10 @@ export type Users = {
   messages: Array<Messages>;
   /** fetch aggregated fields from the table: "messages" */
   messages_aggregate: Messages_Aggregate;
+  /** An array relationship */
+  questions: Array<Questions>;
+  /** An aggregate relationship */
+  questions_aggregate: Questions_Aggregate;
   /** fetch data from the table: "sentiments" */
   sentiments: Array<Sentiments>;
   /** fetch aggregated fields from the table: "sentiments" */
@@ -2148,6 +2197,26 @@ export type UsersMessages_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Messages_Order_By>>;
   where?: InputMaybe<Messages_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersQuestionsArgs = {
+  distinct_on?: InputMaybe<Array<Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Questions_Order_By>>;
+  where?: InputMaybe<Questions_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersQuestions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Questions_Order_By>>;
+  where?: InputMaybe<Questions_Bool_Exp>;
 };
 
 
@@ -2203,6 +2272,8 @@ export type Users_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   messages?: InputMaybe<Messages_Bool_Exp>;
   messages_aggregate?: InputMaybe<Messages_Aggregate_Bool_Exp>;
+  questions?: InputMaybe<Questions_Bool_Exp>;
+  questions_aggregate?: InputMaybe<Questions_Aggregate_Bool_Exp>;
   sentiments?: InputMaybe<Sentiments_Bool_Exp>;
   sentiments_aggregate?: InputMaybe<Sentiments_Aggregate_Bool_Exp>;
   uid?: InputMaybe<String_Comparison_Exp>;
@@ -2224,6 +2295,7 @@ export type Users_Insert_Input = {
   diaries?: InputMaybe<Diaries_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   messages?: InputMaybe<Messages_Arr_Rel_Insert_Input>;
+  questions?: InputMaybe<Questions_Arr_Rel_Insert_Input>;
   sentiments?: InputMaybe<Sentiments_Arr_Rel_Insert_Input>;
   uid?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2266,6 +2338,7 @@ export type Users_Order_By = {
   diaries_aggregate?: InputMaybe<Diaries_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   messages_aggregate?: InputMaybe<Messages_Aggregate_Order_By>;
+  questions_aggregate?: InputMaybe<Questions_Aggregate_Order_By>;
   sentiments_aggregate?: InputMaybe<Sentiments_Aggregate_Order_By>;
   uid?: InputMaybe<Order_By>;
 };
